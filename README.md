@@ -21,15 +21,59 @@ exp1_boolean_min.vcd	VCD waveform dump generated during simulation
 
 ## Verilog Program
 
+//gedit fun.v
+
+module fun (
+
+    input wire A,
+    input wire B,
+    output wire F
+);
+
+assign F = (~A) | B;
+
+endmodule
 
 
 ## TestBench Program
 
+// gedit tb.v
 
+module tb;
 
+reg A, B;
+wire F;
 
+// Instantiate the design under test
 
+fun uut (
 
+    .A(A),
+    .B(B),
+    .F(F)
+);
+
+initial begin
+
+    // VCD dump setup
+    $dumpfile("fun.vcd");
+    $dumpvars(0, tb);
+
+    // Display output
+    $monitor("Time=%0t A=%b B=%b | F=%b",
+             $time, A, B, F);
+
+    // Apply all 4 input combinations
+    A = 0; B = 0; #10;
+    A = 0; B = 1; #10;
+    A = 1; B = 0; #10;
+    A = 1; B = 1; #10;
+
+    #10 $finish;
+
+end
+
+endmodule
 
     
 ## Truth Table
@@ -85,6 +129,7 @@ and successfully implemented using Verilog HDL.
 
 ## OUTPUT
 
+<img width="1600" height="854" alt="WhatsApp Image 2026-11-16 at 15 28 51" src="https://github.com/user-attachments/assets/be6691b1-ae87-4a47-a6b9-115bc4e6a1d0" />
 
 
 The design was compiled and simulated using Synopsys VCS, and the functionality was verified using DVE waveform analysis.
@@ -104,6 +149,7 @@ The design was compiled and simulated using Synopsys VCS, and the functionality 
 13.	What is the purpose of $dumpfile?
 14.	What is the purpose of $dumpvars?
 
-Result
+Result:
+
 Thus, the Boolean function was minimized, implemented using Verilog HDL, successfully simulated using Synopsys VCS, and verified using Synopsys DVE.
 
